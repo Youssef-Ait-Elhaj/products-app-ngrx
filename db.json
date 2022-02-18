@@ -24,11 +24,12 @@
       "id": 3
     },
     {
-      "name": "Monitor",
+      "id": 4,
+      "name": "minori",
       "price": "80000",
       "quantity": "1",
       "selected": "false",
-      "id": 4
+      "available": null
     }
   ]
 }

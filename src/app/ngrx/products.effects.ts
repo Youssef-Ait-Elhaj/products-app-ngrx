@@ -5,7 +5,7 @@ import {catchError, map, mergeMap, Observable, of} from "rxjs";
 import {Action} from "@ngrx/store";
 import {
   DeleteProductActionError,
-  DeleteProductActionSuccess,
+  DeleteProductActionSuccess, EditProductActionError, EditProductActionSuccess,
   GetAllProductsAction,
   GetAllProductsActionError,
   GetAllProductsActionSuccess,
@@ -16,7 +16,7 @@ import {
   SearchProductsActionError,
   SearchProductsActionSuccess,
   SelectProductActionError,
-  SelectProductActionSuccess
+  SelectProductActionSuccess, UpdateProductActionError, UpdateProductActionSuccess
 } from "./products.actions";
 
 @Injectable()
@@ -106,6 +106,32 @@ export class ProductsEffects {
           .pipe(
             map((product) => new SaveProductActionSuccess(product)),
             catchError((err) => of(new SelectProductActionError(err.message)))
+          )
+      })
+    ));
+
+  // Edit product
+  EditProductEffect: Observable<ProductsActions> = createEffect(() =>
+    this.effectActions.pipe(
+      ofType(ProductActionTypes.EDIT_PRODUCT),
+      mergeMap((action: ProductsActions) => {
+        return this.productsService.getProduct(action.payload)
+          .pipe(
+            map((product) => new EditProductActionSuccess(product)),
+            catchError((err) => of(new EditProductActionError(err.message)))
+          )
+      })
+    ));
+
+  // Update product
+  UpdateProductEffect: Observable<ProductsActions> = createEffect(() =>
+    this.effectActions.pipe(
+      ofType(ProductActionTypes.Update_PRODUCT),
+      mergeMap((action: ProductsActions) => {
+        return this.productsService.updateProduct(action.payload)
+          .pipe(
+            map((product) => new UpdateProductActionSuccess(product)),
+            catchError((err) => of(new UpdateProductActionError(err.message)))
           )
       })
     ));

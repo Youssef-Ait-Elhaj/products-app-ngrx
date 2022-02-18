@@ -2,6 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {Product} from "../../../../models/product.model";
 import {Store} from "@ngrx/store";
 import {DeleteProductAction, SelectProductAction} from "../../../../ngrx/products.actions";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-product-item',
@@ -12,7 +13,7 @@ export class ProductItemComponent implements OnInit {
 
   @Input() product: Product | null = null;
 
-  constructor(private store: Store) { }
+  constructor(private store: Store, private router: Router) { }
 
   ngOnInit(): void {
   }
@@ -23,5 +24,9 @@ export class ProductItemComponent implements OnInit {
 
   onDelete(product: Product) {
     this.store.dispatch(new DeleteProductAction(product));
+  }
+
+  onEdit(product: Product) {
+    this.router.navigateByUrl("/editProduct/" + product.id);
   }
 }

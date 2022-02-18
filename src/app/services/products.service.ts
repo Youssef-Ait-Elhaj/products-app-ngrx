@@ -53,6 +53,11 @@ export class ProductsService {
     return this.http.get<Product>(host + '/products/' + id);
   }
 
+  // getProduct(product: Product): Observable<Product> {
+  //   const host = environment.host;
+  //   return this.http.get<Product>(host + '/products/' + product.id);
+  // }
+
   updateProduct(product: Product): Observable<Product> {
     const host = environment.host;
     return this.http.put<Product>(host + '/products/' + product.id, product);

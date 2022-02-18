@@ -1,7 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import {Store} from "@ngrx/store";
-import {GetAllProductsAction, GetSelectedProductsAction, SearchProductsAction} from "../../../ngrx/products.actions";
+import {
+  GetAllProductsAction,
+  GetSelectedProductsAction,
+  ProductActionTypes,
+  SearchProductsAction
+} from "../../../ngrx/products.actions";
 import {Router} from "@angular/router";
+import {ProductsState, ProductsStateEnum} from "../../../ngrx/products.reducer";
 
 @Component({
   selector: 'app-products-navbar',
@@ -10,9 +16,15 @@ import {Router} from "@angular/router";
 })
 export class ProductsNavbarComponent implements OnInit {
 
+  state: ProductsState | null = null;
+  readonly ProductActionTypes = ProductActionTypes;
+
   constructor(private store: Store<any>, private router: Router) { }
 
   ngOnInit(): void {
+    this.store.subscribe(state => {
+      this.state = state.catalogState;
+    });
   }
 
   onGetAllProducts() {
