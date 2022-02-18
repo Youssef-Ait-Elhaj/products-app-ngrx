@@ -9,7 +9,7 @@
       "available": true
     },
     {
-      "id": 1,
+      "id": 2,
       "name": "Smartphone",
       "price": 4300,
       "quantity": 600,
@@ -17,20 +17,18 @@
       "available": true
     },
     {
-      "name": "whaatever",
-      "price": "12",
-      "quantity": "59",
+      "name": "Laptop",
+      "price": "7000",
+      "quantity": "2",
       "selected": true,
-      "available": true,
-      "id": 2
+      "id": 3
     },
     {
-      "id": 3,
       "name": "Monitor",
-      "price": 0,
-      "quantity": 0,
-      "selected": false,
-      "available": true
+      "price": "80000",
+      "quantity": "1",
+      "selected": "false",
+      "id": 4
     }
   ]
 }

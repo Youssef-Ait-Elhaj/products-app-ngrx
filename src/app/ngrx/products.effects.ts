@@ -4,13 +4,15 @@ import {act, Actions, createEffect, ofType} from "@ngrx/effects";
 import {catchError, map, mergeMap, Observable, of} from "rxjs";
 import {Action} from "@ngrx/store";
 import {
+  DeleteProductActionError,
+  DeleteProductActionSuccess,
   GetAllProductsAction,
   GetAllProductsActionError,
   GetAllProductsActionSuccess,
   GetSelectedProductsActionError,
-  GetSelectedProductsActionSuccess,
+  GetSelectedProductsActionSuccess, NewProductActionSuccess,
   ProductActionTypes,
-  ProductsActions,
+  ProductsActions, SaveProductActionSuccess,
   SearchProductsActionError,
   SearchProductsActionSuccess,
   SelectProductActionError,
@@ -68,6 +70,41 @@ export class ProductsEffects {
         return this.productsService.selectProduct(action.payload)
           .pipe(
             map((product) => new SelectProductActionSuccess(product)),
+            catchError((err) => of(new SelectProductActionError(err.message)))
+          )
+      })
+    ));
+
+  // Delete product
+  deleteProductEffect: Observable<ProductsActions> = createEffect(() =>
+    this.effectActions.pipe(
+      ofType(ProductActionTypes.DELETE_PRODUCT),
+      mergeMap((action: ProductsActions) => {
+        return this.productsService.deleteProduct(action.payload.id)
+          .pipe(
+            map(() => new DeleteProductActionSuccess(action.payload)),
+            catchError((err) => of(new DeleteProductActionError(err.message)))
+          )
+      })
+    ));
+
+  // New product
+  newProductEffect: Observable<ProductsActions> = createEffect(() =>
+    this.effectActions.pipe(
+      ofType(ProductActionTypes.NEW_PRODUCT),
+      map((action: ProductsActions) => {
+        return new NewProductActionSuccess({});
+      })
+    ));
+
+  // Save product
+  saveProductEffect: Observable<ProductsActions> = createEffect(() =>
+    this.effectActions.pipe(
+      ofType(ProductActionTypes.SAVE_PRODUCT),
+      mergeMap((action: ProductsActions) => {
+        return this.productsService.saveProduct(action.payload)
+          .pipe(
+            map((product) => new SaveProductActionSuccess(product)),
             catchError((err) => of(new SelectProductActionError(err.message)))
           )
       })
